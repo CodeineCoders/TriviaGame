@@ -4,46 +4,69 @@ var questionsArr = ['What is Javascript?', 'What is NaN?'];
 var answersArr = [['Programming Language', 'Type of Coffee'], ['Not-A-Number', 'Grandmother']];
 var correctAnswers = ['Programming Language', 'Not-A-Number'];
 var counter = 0;
-var timeLeft = 30;
-var timerId = setInterval(countdown, 1000);
+var correctedAnswers = 0;
+var wrongAnswers = 0;
 
-function countdown() {
-    if (timeLeft == 0) {
-        clearTimeout(timerId);
-        questionChange();
-    }else {
-        timeLeft--;
+$("body").on("click", "#answer", function() {
+    choice = $(this).text();
+    if(choice == correctAnswers[counter]){
+        alert("correct");
+        correctAnswers ++;
+        console.log(correctAnswers[counter]);
+    }   
+    else {
+        alert("wrong");
+        wrongAnswers ++;
+        
     }
+});
+
+// Start Game;
+$(".timer").on("click", function() {
+    newQuestion();
+    countdown();
+    $(".timer").hide();
+ 
+ });
+ //30 sec timer;
+function countdown() {
+    var count = 30;
+    var timerId = setInterval(function() {
+        count--;
+        console.log(count);
+
+        if (count === 0) {
+            questionChange();
+            newQuestion();
+            count = 30;
+            
+        }
+    }, 1000);
 }
 
 
 function questionChange() {
-    if (counter < 2) {
+    if (counter <= 2) {
         counter++;
         newQuestion();
+        count = 30;
+    }else {
+        results();
     }
 };
 // New questions are added to the html using function;
 function newQuestion() {
-//question are changed over counter function;
-    addQuestion = "<p class='question'>" + questionsArr[counter] + "</p><p class='question'><p class='answer'>A. " + answersArr[counter][0] + "</p><p class='answer'>B. " + answersArr[counter][1] + "</p>";
-        $(".question").html(addQuestion);
+//question are changed over counter var;
+    addQuestion = "<p class='questionMade'>" + questionsArr[counter] + 
+    "</p><p id='answer'>" + answersArr[counter][0] + 
+    "</p> <p id='answer'>" + answersArr[counter][1] + "</p>";
+        $(".content").html(addQuestion);
     
 };
-
-
-// Start Game;
-$(".question").on("click", function() {
-    newQuestion();
-    countdown();
-
-});
-
-$(".question").on("click", ".answer", function() {
-    alert("Correct");
-})
-
-
+ function results() {
+     addQuestion = "<p class='results'>" + correctAnswers + wrongAnswers + "</p>";
+        $(".content").html(addQuestion);
+ }
 
 
 

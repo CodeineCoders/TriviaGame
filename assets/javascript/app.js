@@ -4,14 +4,14 @@ var questionsArr = ['What is Javascript?', 'What is NaN?'];
 var answersArr = [['Programming Language', 'Type of Coffee'], ['Not-A-Number', 'Grandmother']];
 var correctAnswers = ['Programming Language', 'Not-A-Number'];
 var counter = 0;
-var correctedAnswers = 0;
+var rightAnswers = 0;
 var wrongAnswers = 0;
 
 $("body").on("click", "#answer", function() {
     choice = $(this).text();
     if(choice == correctAnswers[counter]){
         alert("correct");
-        correctAnswers ++;
+        rightAnswers ++;
         console.log(correctAnswers[counter]);
     }   
     else {
@@ -35,23 +35,23 @@ function countdown() {
         count--;
         console.log(count);
 
-        if (count === 0) {
+        if (count == 0) {
             questionChange();
             newQuestion();
-            count = 30;
-            
+            count = 30;  
+        } if (count == -1) {
+            results();
+            clearInterval(timerId);
         }
     }, 1000);
 }
 
-
+// Changes to new Question;
 function questionChange() {
-    if (counter <= 2) {
+    if (counter < 2)  {
         counter++;
         newQuestion();
         count = 30;
-    }else {
-        results();
     }
 };
 // New questions are added to the html using function;
@@ -63,8 +63,10 @@ function newQuestion() {
         $(".content").html(addQuestion);
     
 };
+//Displays results;
  function results() {
-     addQuestion = "<p class='results'>" + correctAnswers + wrongAnswers + "</p>";
+     addQuestion = "<p class='results'>" + 'Right Answers: ' + rightAnswers + 
+     '</p><p>' + 'Wrong Answers: ' +  wrongAnswers + "</p>";
         $(".content").html(addQuestion);
  }
 

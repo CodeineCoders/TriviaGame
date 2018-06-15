@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
-var questionsArr = ['What is Javascript?', 'What is NaN?', 'What is Flanders first name?'];
-var answersArr = [['Programming Language', 'Type of Coffee'], ['Not-A-Number', 'Grandmother'], ['Al','Ned']];
-var correctAnswers = ['Programming Language', 'Not-A-Number', 'Ned'];
+var questionsArr = ['Who ran over Snowball I?', 'How much did Bart sell his soul for?', "What is Ned Flanders wife's name?"];
+var answersArr = [['Cletus', 'Clovis Quimby', 'Maggie', 'Mayor Quimby'], ['$5', '$10', '$20', 'Comic-Book'], ['Maude','Ruth', 'Edna', 'Mona']];
+var correctAnswers = ['Clovis Quimby', '$5', 'Maude'];
 var counter = 0;
 var rightAnswers = 0;
 var wrongAnswers = 0;
-var count = 30;
+var count = 10;
 var clock;
 
 $("body").on("click", "#answer", function() {
@@ -22,14 +22,17 @@ $("body").on("click", "#answer", function() {
     else {
         alert("wrong");
         wrongAnswers ++;
+        clearInterval(clock);
+        newQuestion();
+        questionChange();
     }
 });
 
 // Start Game;
-$(".timer").on("click", function() {
+$(".start").on("click", function() {
     newQuestion();
     countdown();
-    $(".timer").hide();
+    $(".start").hide();
  
  });
 
@@ -40,6 +43,7 @@ function countdown() {
             clearInterval(clock);
             questionChange();
             newQuestion();
+            wrongAnswers++;
         }
         if (count > 0) {
             count--;
@@ -54,10 +58,11 @@ function questionChange() {
     if (counter < 2)  {
         counter++;
         newQuestion();
-        count = 30;
+        count = 10;
         countdown();
     } else {
         results();
+        $("#time").hide();
     }
 console.log(counter);
 };
@@ -68,7 +73,9 @@ function newQuestion() {
 //question are changed over counter var;
     addQuestion = "<p class='questionMade'>" + questionsArr[counter] + 
     "</p><p id='answer'>" + answersArr[counter][0] + 
-    "</p> <p id='answer'>" + answersArr[counter][1] + "</p>";
+    "</p><p id='answer'>" + answersArr[counter][1] + 
+    "<p id='answer'>" + answersArr[counter][2] +
+    "<p id='answer'>" + answersArr[counter][3] + "</p>";
         $(".content").html(addQuestion);
     
 };
